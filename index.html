@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon/favicon-16x16.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Pig Game</title>
+  <script defer src="./loadWorker.js"></script>
+</head>
+
+<body>
+  <main>
+    <h1 class="visually-hidden">Pig-Game</h1>
+
+    <section aria-current="true" class="player player--0">
+      <h2 class="name" id="name--0">Player 1</h2>
+      <p aria-live="polite" class="score" id="score--0">43</p>
+      <div class="current">
+        <p class="current-label">Current</p>
+        <p aria-live="polite" class="current-score" id="current--0">0</p>
+      </div>
+    </section>
+
+    <section aria-current="false" class="player player--1">
+      <h2 class="name" id="name--1">Player 2</h2>
+      <p aria-live="polite" class="score" id="score--1">24</p>
+      <div class="current">
+        <p class="current-label">Current</p>
+        <p aria-live="polite" class="current-score" id="current--1">0</p>
+      </div>
+    </section>
+
+    <img aria-live="polite" width="100" height="100" src="./images/dice-1.png" alt="Playing dice" class="dice"
+      data-img="0" />
+    <img aria-live="polite" width="100" height="100" src="./images/dice-2.png" alt="Playing dice" class="dice"
+      data-img="1" />
+    <img aria-live="polite" width="100" height="100" src="./images/dice-3.png" alt="Playing dice" class="dice"
+      data-img="2" />
+    <img aria-live="polite" width="100" height="100" src="./images/dice-4.png" alt="Playing dice" class="dice"
+      data-img="3" />
+    <img aria-live="polite" width="100" height="100" src="./images/dice-5.png" alt="Playing dice" class="dice"
+      data-img="4" />
+    <img aria-live="polite" width="100" height="100" src="./images/dice-6.png" alt="Playing dice" class="dice"
+      data-img="5" />
+
+    <button type="button" class="btn btn--new">🔄 New game</button>
+    <button type="button" id="roll-dice" class="btn btn--roll">
+      🎲 Roll dice
+    </button>
+    <button type="button" id="hold" class="btn btn--hold">📥 Hold</button>
+
+    <div class="overlay-winner visually-hidden">
+      <div class="overlay-winner__inner">
+        <p class="overlay-winner__message"></p>
+        <button type="button" class="overlay-winner__new-game">
+          🔄 New game
+        </button>
+      </div>
+    </div>
+  </main>
+  <script defer src="script.js"></script>
+</body>
+
+</html>

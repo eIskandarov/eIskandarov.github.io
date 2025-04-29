@@ -43,6 +43,79 @@ class Game {
     winnerScore: 100,
   };
 
+  soundSamples = {
+    diceRoll: {
+      path: './sounds/dice-roll/',
+      names: ['dice-roll_01.wav', 'dice-roll_02.wav', 'dice-roll_03.wav'],
+    },
+    d1: {
+      path: './sounds/d1/',
+      names: [
+        'd1_01.wav',
+        'd1_02.wav',
+        'd1_03.wav',
+        'd1_04.wav',
+        'd1_05.wav',
+        'd1_06.wav',
+      ],
+    },
+    hold: {
+      path: './sounds/hold/',
+      names: ['hold_01.wav', 'hold_02.wav', 'hold_03.wav'],
+    },
+    newGame: {
+      path: './sounds/new-game/',
+      names: ['new-game_01.wav', 'new-game_02.wav', 'new-game_03.wav'],
+    },
+    winner: {
+      path: './sounds/winner/',
+      names: ['winner_01.wav', 'winner_02.wav', 'winner_03.wav'],
+    },
+  };
+
+  preloadSounds() {
+    this.sounds = {};
+    this.sounds.d1 = this.initSounds(this.getSoundPath(this.soundSamples.d1));
+
+    this.sounds.diceRoll = this.initSounds(
+      this.getSoundPath(this.soundSamples.diceRoll)
+    );
+
+    this.sounds.hold = this.initSounds(
+      this.getSoundPath(this.soundSamples.hold)
+    );
+
+    this.sounds.newGame = this.initSounds(
+      this.getSoundPath(this.soundSamples.newGame)
+    );
+
+    this.sounds.winner = this.initSounds(
+      this.getSoundPath(this.soundSamples.winner)
+    );
+  }
+
+  playRandomSound(soundArray) {
+    if (typeof soundArray !== 'object') {
+      return;
+    }
+
+    const arrSize = soundArray.length;
+    const index = Math.trunc(Math.random() * arrSize);
+    soundArray[index].play();
+  }
+
+  getSoundPath(soundObj) {
+    if (typeof soundObj !== 'object') {
+      return;
+    }
+
+    return soundObj.names.map(sound => soundObj.path + sound);
+  }
+
+  initSounds(soundArray) {
+    return soundArray.map(sound => new Audio(sound));
+  }
+
   updatePlayerUI(playerIndex) {
     this.playerSection = document.querySelector(
       this.players[playerIndex].class
@@ -69,11 +142,17 @@ class Game {
 
   toggleWinnerOverlay(flag = false) {
     this.overlayMessage.textContent = `Player ${this.players.currentPlayer + 1} won with the score: ${this.players[this.players.currentPlayer].totalScore}`;
+
     this.overlayWinner.classList.toggle(
       this.stateClasses.visuallyHidden,
       !flag
     );
+
     this.overlayNewGame.focus();
+
+    if (flag) {
+      this.playRandomSound(this.sounds.winner);
+    }
   }
 
   toggleActivePlayerSection(playerIndex, flag) {
@@ -136,6 +215,7 @@ class Game {
     this.resetPlayerScores(1);
     this.dice.currentDiceIndex = 0;
     this.updateUI();
+    this.playRandomSound(this.sounds.newGame);
   };
 
   rollDiceIndex() {
@@ -157,6 +237,7 @@ class Game {
     this.updateDiceImage();
 
     if (this.dice.currentDiceIndex === this.dice.loseDiceIndex) {
+      this.playRandomSound(this.sounds.d1);
       this.clearPlayerCurrentScore();
       this.changeActivePlayer(this.getNextPlayerIndex());
     } else {
@@ -164,6 +245,7 @@ class Game {
     }
 
     this.updateUI();
+    this.playRandomSound(this.sounds.diceRoll);
   };
 
   onHoldButtonClick = () => {
@@ -177,6 +259,7 @@ class Game {
     }
 
     this.updateUI();
+    this.playRandomSound(this.sounds.hold);
   };
 
   bindEvents() {
@@ -203,6 +286,7 @@ class Game {
     this.overlayMessage = document.querySelector(this.selectors.overlayMessage);
     this.overlayNewGame = document.querySelector(this.selectors.overlayNewGame);
 
+    this.preloadSounds();
     this.resetGame();
     this.bindEvents();
   }

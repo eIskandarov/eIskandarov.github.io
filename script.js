@@ -1,3 +1,5 @@
+import Utils from './utils.js';
+
 class Game {
   selectors = {
     totalScore: '.score',
@@ -72,6 +74,10 @@ class Game {
       names: ['winner_01.wav', 'winner_02.wav', 'winner_03.wav'],
     },
   };
+
+  debounceButtonClicks(fn) {
+    return Utils.debounce(fn, 300);
+  }
 
   preloadSounds() {
     this.sounds = {};
@@ -263,10 +269,25 @@ class Game {
   };
 
   bindEvents() {
-    this.newGameButton.addEventListener('click', this.resetGame);
-    this.overlayNewGame.addEventListener('click', this.resetGame);
-    this.rollDiceButton.addEventListener('click', this.onRollDiceClick);
-    this.holdButton.addEventListener('click', this.onHoldButtonClick);
+    this.newGameButton.addEventListener(
+      'click',
+      this.debounceButtonClicks(this.resetGame)
+    );
+
+    this.overlayNewGame.addEventListener(
+      'click',
+      this.debounceButtonClicks(this.resetGame)
+    );
+
+    this.rollDiceButton.addEventListener(
+      'click',
+      this.debounceButtonClicks(this.onRollDiceClick)
+    );
+
+    this.holdButton.addEventListener(
+      'click',
+      this.debounceButtonClicks(this.onHoldButtonClick)
+    );
   }
 
   constructor() {

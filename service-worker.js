@@ -1,4 +1,4 @@
-const cacheName = 'worker-cache-v1.2';
+const cacheName = 'worker-cache-v1.3';
 const assets = [
   './',
   './index.html',
